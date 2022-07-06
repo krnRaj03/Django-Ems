@@ -1,0 +1,58 @@
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/ec1801c9e6.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'styleHeader.css' %}"
+  </head>
+  <body onload=display_c()>
+    <div class="container-fluid">
+
+      <div class="row">
+        
+        <div class="col-sm-2 p-0">
+          <img src="{% static 'images/abstract-102.png' %}" style="width:70px; height:85px" class="img-thumbnail mx-3 my-3">
+          <div class="list-group mx-2">
+            <a href="{% url 'emp_home' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/emp_home' %} active {% endif %}">Dashboard</a>
+            <a href="{% url 'profile' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/profile' %} active {% endif %}">Profile</a>
+            <a href="{% url 'myExp' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/my_exp' %} active {% endif %}">Experience</a>
+            <a href="{% url 'editExp' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/edit_exp' %} active {% endif %}">Edit my Experience</a>
+            <a href="{% url 'myEdu' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/my_edu' %} active {% endif %}">Education</a>
+            <a href="{% url 'editEdu' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/edit_edu' %} active {% endif %}">Edit my Education</a>
+            <a href="{% url 'changePass'%}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/change_pass' %} active {% endif %}">Change Password</a>
+            {% comment %} <a href="{% url 'holidayList' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/holi_list' %} active {% endif %}">List of Holidays</a> {% endcomment %}
+            <a href="{% url 'logout' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/logout' %} active {% endif %}">Logout</a>
+          </div>
+        </div>
+        <div class="col-sm-10 p-0">
+          <div class="container-fluid p-2">
+            <h5 class="text-center p-3 font-weight-bold" >
+              Employee Management System
+            </h5>
+            <span id="ct" class="border rounded bg-light w-25 p-3 " ></span>
+
+            <div class="card shadow" style="min-height:90vh">
+              {% block main %}
+              {% endblock %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript"> 
+    function display_c(){
+    var refresh=1000; // Refresh rate in milli seconds
+    mytime=setTimeout('display_ct()',refresh)
+    }
+    
+    function display_ct() {
+    var x = new Date()
+    document.getElementById('ct').innerHTML = x;
+    display_c();
+     }
+    </script>
+</html>

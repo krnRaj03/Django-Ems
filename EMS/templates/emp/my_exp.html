@@ -1,0 +1,67 @@
+{% extends 'emp/emp_base.html' %}
+{% block main %}
+<div class="card shadow m-2">
+  <div class="card-body">
+    <a href="{% url 'editExp' %}" class="btn btn-success float-right">Edit your Experience</a>
+    <h5 class="p-2" style="border-bottom: 2px solid orange">
+     My Work Ex:
+    </h5>
+    <div class="container-fluid">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th>First Company Name:</th>
+          <td> {{experience.comp1name}}</td>
+        <tr>
+        <tr>
+            <th>First Company Designation:</th>
+            <td> {{experience.comp1desig}}</td>
+        <tr>
+        <tr>
+              <th>First Company Salary:</th>
+              <td> {{experience.comp1sal}}</td>
+        <tr>
+        <tr>
+                <th>First Company Duration:</th>
+                <td> {{experience.comp1dura}}</td>
+        <tr>
+          {% comment %}  {% endcomment %}
+          <tr>
+            <th>Second Company Name:</th>
+            <td> {{experience.comp2name}}</td>
+          <tr>
+          <tr>
+              <th>Second Company Designation:</th>
+              <td> {{experience.comp2desig}}</td>
+          <tr>
+          <tr>
+                <th>Second Company Salary:</th>
+                <td> {{experience.comp2sal}}</td>
+          <tr>
+          <tr>
+                  <th>FSecondCompany Duration:</th>
+                  <td> {{experience.comp2dura}}</td>
+          <tr>
+            {% comment %}  {% endcomment %}
+            <tr>
+              <th>Third Company Name:</th>
+              <td> {{experience.comp3name}}</td>
+            <tr>
+            <tr>
+                <th>Third Company Designation:</th>
+                <td> {{experience.comp3desig}}</td>
+            <tr>
+            <tr>
+                  <th>Third Company Salary:</th>
+                  <td> {{experience.comp3sal}}</td>
+            <tr>
+            <tr>
+                    <th>Third Company Duration:</th>
+                    <td> {{experience.comp3dura}}</td>
+            <tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

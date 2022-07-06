@@ -1,0 +1,67 @@
+{% extends 'emp/emp_base.html' %}
+{% block main %}
+<div class="card shadow m-2">
+  <div class="card-body">
+    <a href="{% url 'editExp' %}" class="btn btn-success float-right">Edit your Education</a>
+    <h5 class="p-2" style="border-bottom: 2px solid orange">
+     My Work Ex:
+    </h5>
+    <div class="container-fluid">
+      <table class="table table-bordered table-hover">
+        <tr>
+          <th>Post Graduation Course:</th>
+          <td> {{education.coursepg}}</td>
+        <tr>
+        <tr>
+            <th>Post Graduation University/College:</th>
+            <td> {{education.schoolclgpg}}</td>
+        <tr>
+        <tr>
+              <th>Post Graduation (Passing year):</th>
+              <td> {{education.yearpasspg}}</td>
+        <tr>
+        <tr>
+                <th>Post Graduation (Percent/Percentile/Grade):</th>
+                <td> {{education.percentpg}}</td>
+        <tr>
+          {% comment %}  {% endcomment %}
+          <tr>
+            <th>Graduation Course:</th>
+            <td> {{education.coursegra}}</td>
+          <tr>
+          <tr>
+              <th>Graduation University/College:</th>
+              <td> {{education.schoolclggra}}</td>
+          <tr>
+          <tr>
+                <th>Graduation (Passing year):</th>
+                <td> {{education.yearpassgra}}</td>
+          <tr>
+          <tr>
+                  <th>Graduation (Percent/Percentile/Grade):</th>
+                  <td> {{education.percentgra}}</td>
+          <tr>
+            {% comment %}  {% endcomment %}
+            <tr>
+              <th>Senior Secondary School course:</th>
+              <td> {{education.coursesc}}</td>
+            <tr>
+            <tr>
+                <th>Senior Secondary School name:</th>
+                <td> {{education.schoolclgsc}}</td>
+            <tr>
+            <tr>
+                  <th>Senior Secondary (Passing year):</th>
+                  <td> {{education.yearpasssc}}</td>
+            <tr>
+            <tr>
+                    <th>Senior Secondary (Percent/Percentile/Grade):</th>
+                    <td>{{education.percentsc}}</td>
+            <tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

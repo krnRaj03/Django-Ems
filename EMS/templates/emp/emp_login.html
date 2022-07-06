@@ -1,0 +1,39 @@
+{% include 'header.html' %}
+<div class="card shadow m-5">
+  <div class="card-body">
+    <h5 class="p-2" style="border-bottom: 2px solid orange">Login</h5>
+    <div class="container-fluid">
+      <form method="post" name="signup" onsubmit="checkpassword()">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Username</label>
+              <input type="text" name="usernameId" class="form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" name="pass1Id" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <input type="submit" value="Login" class="btn btn-primary my-2 max-2" />
+      </form>
+    </div>
+  </div>
+</div>
+{% if error == "NO" %}
+<script>
+  alert("Logged In successfully!")
+  window.location=('{% url 'emp_home' %}');
+</script>
+{% endif %} {% if error == "YES" %}
+<script>
+  alert("Wrong Credentials! Please try again...");
+</script>
+{% endif %}

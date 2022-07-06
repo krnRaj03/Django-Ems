@@ -1,0 +1,76 @@
+{% extends 'emp/emp_base.html' %}
+{% block main %}
+
+<script>
+  function checkpassword(){
+    if(document.changepassword.newPass.value!=document.changepassword.confirmNewPass.value){
+      alert("New Password & Confirm Password don't match, please check again.");
+      document.changepassword.confirmNewPass.focus();
+      return false;
+    }
+
+  }
+</script>
+
+
+<div class="card shadow m-2">
+  <div class="card-body">
+    <h5 class="p-2" style="border-bottom: 2px solid orange">
+      Welcome <b style="color:blue">{{request.user.first_name}} {{request.user.last_name}}</b> to your profile:
+    </h5>
+    <div class="container-fluid">
+      <form method="post" name="changepassword" onsubmit="return checkpassword()">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Current Password:</label>
+              <input type="text" name="currentPass" class="form-control" placeholder="Please enter your Current Password" value="{{employee.user.first_name}}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>New Password</label>
+              <input type="text" name="newPass" class="form-control" placeholder="Please enter the New password" value="{{employee.user.first_name}}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Confirm New Password</label>
+              <input type="text" name="confirmNewPass" class="form-control" placeholder="Please retype your New Passowrd" value="{{employee.user.first_name}}"/>
+            </div>
+          </div>
+        </div>
+
+        <input
+          type="submit"
+          value="submit"
+          class="btn btn-primary my-2 max-2"
+        />
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if error == "NO" %}
+<script>
+  alert("Password updated successfully!😊")
+  window.location=('{% url 'logout' %}');
+</script>
+{% endif %} {% if error == "YES" %}
+<script>
+  alert("Something went wrong! Please try again...😯");
+</script>
+{% endif %}
+{% if error == "NOT" %}
+<script>
+  alert("You've misstyped your Current Password ❌");
+</script>
+{% endif %}
+{% endblock %}

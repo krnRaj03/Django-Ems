@@ -1,0 +1,104 @@
+{% extends 'emp/emp_base.html' %}
+{% block main %}
+<div class="card shadow m-2">
+  <div class="card-body">
+    <h5 class="p-2" style="border-bottom: 2px solid orange">
+      Welcome <b style="color:blue">{{request.user.first_name}} {{request.user.last_name}}</b> to your profile:
+    </h5>
+    <div class="container-fluid">
+      <form method="post" name="signup" onsubmit="checkpassword()">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>First Name</label>
+              <input type="text" name="firstname" class="form-control" placeholder="Please enter your first name" value="{{employee.user.first_name}}"/>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Last Name</label>
+              <input type="text" name="lastname" class="form-control" placeholder="Please enter your last name" value="{{employee.user.last_name}}" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-10 p-2">
+            <div class="form-group">
+              <label>Employee Code</label>
+              <input type="text" name="empcode" class="form-control"  value="{{employee.empcode}}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Employee Department</label>
+              <input type="text" name="department" class="form-control"  value="{{employee.empdept}}"
+          </div>
+        
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label>Employee Designation</label>
+              <input type="text" name="designation" class="form-control"  value="{{employee.designation}}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6 p-2">
+            <div class="form-group">
+              <label>Email 📩</label>
+              <input type="email" name="email" class="form-control"  value="{{employee.user.username }}"/>
+            </div> 
+          </div>
+          <div class="col-sm-6 p-2">
+            <div class="form-group">
+              <label>Contact 📞</label>
+              <input type="tel" name="contact" class="form-control" value="{{employee.contact}}"/>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 p-2">   
+            <div class="form-group">
+              <label>Joining date 📆</label>
+              <input type="date" name="jdate" class="form-control" value="{{employee.join_date}}"/>
+            </div>
+          </div>
+          <div class="col-sm-6 p-2">
+            <div class="form-group">
+              <label>Gender</label>
+              <select name="gender" class="form-control" value="{{employee.gender}}">
+                <option  value="">Select your Gender</option>
+                <option  value="Male">Male 👨🏻</option>
+                <option value="Female">Female 👩🏻‍🦰</option>
+              </select>
+            </div>
+          </div>
+        </div>
+       
+
+        <input
+          type="submit"
+          value="submit"
+          class="btn btn-primary my-2 max-2"
+        />
+      </form>
+    </div>
+  </div>
+</div>
+
+{% if error == "NO" %}
+<script>
+  alert("Profile updated successfully!")
+  window.location=('{% url 'emp_login' %}');
+</script>
+{% endif %} {% if error == "YES" %}
+<script>
+  alert("Wrong Credentials!");
+</script>
+{% endif %}
+{% endblock %}

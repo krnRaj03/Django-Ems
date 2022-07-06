@@ -1,0 +1,54 @@
+{% load static %}
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bootstrap demo</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script src="https://kit.fontawesome.com/ec1801c9e6.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="{% static 'css/adminLogin.css' %}"
+</head>
+
+<body style="background: rgb(238,174,202);
+background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);">
+<div class="row">
+  <div class="col-lg-5 m-auto">
+    <div class="card-title text-center mt-3">
+      <img src="{% static 'images/10__50_-removebg-preview.png' %}" width="190" height="190"/>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-user fa-2x"></i>
+            </span>
+          </div>
+          <input type="text" name="username" class="form-control py-2">
+        </div>
+        {% comment %}  {% endcomment %}
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="fa fa-lock fa-2x"></i>
+            </span>
+          </div>
+          <input type="password" name="pass1" class="form-control py-2">
+        </div>
+        <input type="submit" value="Login" class="btn btn-success center px-5">
+        <a href="{% url 'home'%}" class="float-right text-white">Go back to home</a>
+      </form>
+    </div> 
+  </div>
+</div>
+</body>
+{% if error == "NO" %}
+<script>
+  alert("Logged In successfully!")
+  window.location=('{% url 'admin_home' %}');
+</script>
+{% endif %} {% if error == "YES" %}
+<script>
+  alert("Wrong Credentials! Please try again...");
+</script>
+{% endif %}
