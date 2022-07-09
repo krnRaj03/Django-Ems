@@ -36,12 +36,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-2 p-0">
-          <img src="{% static 'images/abstract-102.png' %}" style="width:70px; height:85px" class="img-thumbnail mx-3 my-3">
+          <img src="{% static 'images/admin2.png' %}" style="width:85px; height:90px" class="img-thumbnail mx-3 my-3">
           <div class="list-group mx-2">
             <a href="{% url 'admin_home' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/admin_home' %} active {% endif %}">Dashboard</a>
             <a href="{% url 'allEmps' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/all_employees' %} active {% endif %}">All Employees</a>
             <a href="{% url 'changePassAdmin' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/change_passAdmin' %} active {% endif %}">Change Password</a>
-            <a href="" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/edit_exp' %} active {% endif %}">Logout</a>
+            <a href="{% url 'logout' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/edit_exp' %} active {% endif %}">Logout</a>
             
           </div>
         </div>

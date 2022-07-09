@@ -1,3 +1,6 @@
+html{
+  background-image: url ("images\Blog9.jpg");
+}
 .nav-link{
   color: white, !important;
 }
@@ -10,4 +13,13 @@
 
 .navbar-brand{
   font-weight: 700;
+}
+#timedate {
+  font: small-caps lighter 43px/150% "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  text-align:left;
+  width: 50%;
+  margin: 40px auto;
+  color:black;
+  border-left: 3px solid #ed1f24;
+  padding: 20px;
 }

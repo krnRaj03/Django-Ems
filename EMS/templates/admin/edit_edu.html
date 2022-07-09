@@ -1,4 +1,4 @@
-{% extends 'emp/emp_base.html' %}
+{% extends 'admin/admin_base.html' %}
 {% block main %}
 <div class="card shadow m-2">
   <div class="card-body">
@@ -70,7 +70,7 @@
 {% if error == "NO" %}
 <script>
   alert("Education section updated successfully!")
-  window.location=('{% url 'editEdu' %}');
+  window.location=('{% url 'editEdu' education.user.id %}');
 </script>
 {% endif %} {% if error == "YES" %}
 <script>

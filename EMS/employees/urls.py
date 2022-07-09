@@ -9,7 +9,9 @@ urlpatterns = [
     path('all_employees', views.allEmps, name="allEmps"),
     path('change_passAdmin', views.changePassAdmin, name="changePassAdmin"),
     path('delete_employees/<int:pid>', views.delete_emps, name="delete_emps"),
-    path('edit_profile/<int:pid>', views.edit_profile, name="edit_profile"),
+    path('edit_exp/<int:pid>', views.editExp, name="editExp"),
+    path('edit_edu/<int:pid>', views.editEdu, name="editEdu"),
+    # path('update_profile/<int:pid>', views.update_emps, name="update_emps"),
 
     #all Emp urls
     path('registration', views.register, name="register"),
@@ -18,9 +20,7 @@ urlpatterns = [
     path('profile', views.profile, name="profile"),
     path('logout', views.Logout, name="logout"),
     path('my_exp', views.myExp, name="myExp"),
-    path('edit_exp', views.editExp, name="editExp"),
     path('my_edu', views.myEdu, name="myEdu"),
-    path('edit_edu', views.editEdu, name="editEdu"),
     path('change_pass', views.changePass, name="changePass"),
     
 ]

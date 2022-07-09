@@ -1,8 +1,8 @@
-{% extends 'emp/emp_base.html' %}
+{% extends 'admin/admin_base.html' %}
 {% block main %}
 <div class="card shadow m-2">
   <div class="card-body">
-    <a href="{% url 'myExp' %}" class="btn btn-success float-right">View your Experience</a>
+    {% comment %} <a href="{% url 'myExp' %}" class="btn btn-success float-right">View your Experience</a> {% endcomment %}
     <h5 class="p-2" style="border-bottom: 2px solid orange">
      My Work Ex:
     </h5>
@@ -70,7 +70,7 @@
 {% if error == "NO" %}
 <script>
   alert("Experience section updated successfully!")
-  window.location=('{% url 'editExp' %}');
+  window.location=('{% url 'editExp' experience.user.id %}');
 </script>
 {% endif %} {% if error == "YES" %}
 <script>

@@ -1,7 +1,7 @@
 {% extends 'admin/admin_base.html' %}
 {% block main %}
 
-<div class="card shadow m-2">
+
   <div class="card-body">
     <h5 class="p-2" style="border-bottom: 2px solid orange">
      All Employees:
@@ -12,14 +12,15 @@
         <tr>
           <th>S.No:</th>
           <th>Employee Code:</th>
+          <th>Employee Depart:</th>
           <th>First Name:</th>
           <th>Last Name:</th>
           <th>E-mail:</th>
           <th>Contact:</th>
           <th>Joining Date:</th>
           <th>Actions1</th>
-          <th>Actions2</th>
-          <th>Salary</th>
+           
+        
         </tr>
       </thead>
       <tbody>
@@ -30,6 +31,9 @@
           </td>
           <td>
             {{i.empcode}}
+          </td>
+          <td>
+            {{i.empdept}}
           </td>
           <td>
             {{i.user.first_name}}
@@ -47,21 +51,20 @@
             {{i.join_date}}
           </td> 
           <td>
-            <a href="{% url 'delete_emps' i.user.id %}" onclick="makeSure(); return false;">DELETE</a>
+            <a href="{% url 'editExp' i.user.id %}"  class="text-info"><small>Update Experience</small></a>
+            <br>
+            <a href="{% url 'editEdu' i.user.id %}" class="text-warning"><small>Update Education</small></a>
+            <a href="{% url 'delete_emps' i.user.id %}"  class="text-danger" onclick="return confirm('Are you sure?')"><small>DELETE</small></a>
+         <br>
           </td>
-          <td>
-            <a href="">UPDATE</a>
-          </td>
-          <td>
-            <a href="">SALARY</a>
-          </td>
+       
         </tr>
         {% endfor %}
       </tbody>
      </table>
     </div>
   </div>
-</div>
+
 
 {% endblock %}
 <script>

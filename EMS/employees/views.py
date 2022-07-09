@@ -1,8 +1,40 @@
+from email.errors import MessageError
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
+
+from django.core.mail import send_mail
+from django.conf import settings
+
 from requests import request
 from .models import *
 import datetime
+from django.contrib import messages
+
+#for pdfs
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+
+
+# def some_view(request):
+#     # Create a file-like buffer to receive PDF data.
+#     buffer = io.BytesIO()
+
+#     # Create the PDF object, using the buffer as its "file."
+#     p = canvas.Canvas(buffer)
+
+#     # Draw things on the PDF. Here's where the PDF generation happens.
+#     # See the ReportLab documentation for the full list of functionality.
+#     p.drawString(100, 100, "Hello world.")
+
+#     # Close the PDF object cleanly, and we're done.
+#     p.showPage()
+#     p.save()
+
+#     # FileResponse sets the Content-Disposition header so that browsers
+#     # present the option to save the file.
+#     buffer.seek(0)
+#     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
 
 # Create your views here.
 def home(request):
@@ -70,6 +102,7 @@ def emp_login(request):
     user=authenticate(username=u, password=p)
     if user:
       login(request,user)
+      
       error="NO"
     else:
       error="YES"
@@ -85,6 +118,7 @@ def register(request):
     ec=request.POST['empcode']
     em=request.POST['email']
     pw=request.POST['pass1']
+
     try:
       user=User.objects.create_user(first_name=fn,last_name=ln,username=em, password=pw)
       employeeDetails.objects.create(user=user,empcode=ec)
@@ -133,12 +167,12 @@ def profile(request):
   return render(request,'profile.html',locals())
 
 #Employee editable Experience
-def editExp(request):
+def editExp(request,pid):
   if not request.user.is_authenticated:
-    return redirect("emp_login")
+    return redirect("admin_login")
   error=""
-  user=request.user
 
+  user=User.objects.get(id=pid)
   #instantiating the model as a variable 
   experience=employeeExperience.objects.get(user=user)
 
@@ -186,14 +220,14 @@ def editExp(request):
       error="NO"
     except:
       error="YES"
-  return render(request,'emp/edit_exp.html',locals())
+  return render(request,'admin/edit_exp.html',locals())
 
   #Employee editable Experience
-def editEdu(request):
+def editEdu(request,pid):
   if not request.user.is_authenticated:
-    return redirect("emp_login")
+    return redirect("admin_login")
   error=""
-  user=request.user
+  user=User.objects.get(id=pid)
 
   #instantiating the model as a variable 
   education=employeeEducation.objects.get(user=user)
@@ -242,7 +276,7 @@ def editEdu(request):
       error="NO"
     except:
       error="YES"
-  return render(request,'emp/edit_edu.html',locals())
+  return render(request,'admin/edit_edu.html',locals())
 
 def changePass(request):
   if not request.user.is_authenticated:
@@ -305,39 +339,3 @@ def delete_emps(request,pid):
   user.delete()
   return redirect('allEmps')
 
-#Employee Profile
-def edit_profile(request,pid):
-  if not request.user.is_authenticated:
-    return redirect("emp_login")
-  error=''
-  
-  employee=employeeDetails.objects.get()
-  if request.method=="POST":
-    fn=request.POST['firstname']
-    ln=request.POST['lastname']
-    ec=request.POST['empcode']
-    dept=request.POST['department']
-    desig=request.POST['designation']
-    cont=request.POST['contact']
-    joindate=request.POST['jdate']
-    gender=request.POST['gender']
-
-    # updating user data
-    employee.first_name=fn
-    employee.last_name=ln
-    employee.empcode=ec
-    employee.empdept=dept
-    employee.designation=desig
-    employee.contact=cont
-    employee.gender=gender
-
-    if joindate:
-      employee.join_date=joindate
-
-    try:
-      employee.save()
-      employee.user.save()
-      error="NO"
-    except:
-      error="YES"
-  return render(request,'admin/edit_profile.html',locals())
