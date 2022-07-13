@@ -24,7 +24,7 @@
             {% comment %} <a href="{% url 'editEdu' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/edit_edu' %} active {% endif %}">Edit my Education</a> {% endcomment %}
             <a href="{% url 'changePass'%}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/change_pass' %} active {% endif %}">Change Password</a>
             {% comment %} <a href="{% url 'holidayList' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/holi_list' %} active {% endif %}">List of Holidays</a> {% endcomment %}
-            <a href="{% url 'logout' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/logout' %} active {% endif %}">Logout</a>
+            <a href="{% url 'logout_user' %}" class="list-group-item list-group-item-info list-group-item-action {% if request.path == '/logout_user' %} active {% endif %}">Logout</a>
           </div>
         </div>
         <div class="col-sm-10 p-0">

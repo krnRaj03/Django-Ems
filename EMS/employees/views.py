@@ -1,40 +1,85 @@
 from email.errors import MessageError
+from urllib import response
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
 
+#for e-mail
 from django.core.mail import send_mail
 from django.conf import settings
-
 from requests import request
+
+#models
 from .models import *
-import datetime
 from django.contrib import messages
 
 #for pdfs
-import io
 from django.http import FileResponse
+import io
 from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import A4,LEGAL, letter
+
+#for text files
+from django.http import HttpResponse
+
+#grant_leave Text
+def grant_leaveText(request,pid):
+  if not request.user.is_authenticated:
+    return redirect("admin_login")
+  user=User.objects.get(id=pid)
+  employee=employeeDetails.objects.get(user=user)
+  response=HttpResponse(content_type='text/plain')
+  response['Content-Disposition']='attachment; filename=grantLeave.doc'
+
+  lines=[employee.designation, "\n",employee.user.first_name, "\n","V'll have our day one day"]
+  #write text to file
+  response .writelines(lines)
+  return response
 
 
-# def some_view(request):
-#     # Create a file-like buffer to receive PDF data.
-#     buffer = io.BytesIO()
+#grant Leave PDF
+def grant_leave(request,pid):
+  if not request.user.is_authenticated:
+    return redirect("admin_login")
+  user=User.objects.get(id=pid)
+  employee=employeeDetails.objects.get(user=user)
+  #create buffer
+  buf=io.BytesIO()
+  #create a canvas
+  c=canvas.Canvas(buf,pagesize=letter, bottomup=0)
+  #create a textobject
+  textob=c.beginText()
+  textob.setTextOrigin(inch,inch)
+  textob.setFont("Helvetica",14)
+  #add text
+  lines=[employee.designation,employee.user.first_name,"V'll have our day one day"]
+  for line in lines:
+    textob.textLine(line)
+  #finish up
+  c.drawText(textob)
+  c.showPage()
+  c.save()
+  buf.seek(0)
+  return FileResponse(buf,as_attachment=True,filename="pdf1.pdf")
 
-#     # Create the PDF object, using the buffer as its "file."
-#     p = canvas.Canvas(buffer)
+  # 
+  
+  
+  # pdf = FPDF()
+  # pdf.add_page()
+  # pdf.set_font('helvetica', size=12)
+  # pdf.cell(txt=employee.user.first_name)
+  # # print(pdf.cell)
+  # pdf.output("hello_world.pdf")
+  # return FileResponse(open('hello_world.pdf', 'rb'),as_attachment=True,content_type='application/pdf')
+  
 
-#     # Draw things on the PDF. Here's where the PDF generation happens.
-#     # See the ReportLab documentation for the full list of functionality.
-#     p.drawString(100, 100, "Hello world.")
+def pdf_gen(request):
+  if not request.user.is_authenticated:
+    return redirect('admin_login')
 
-#     # Close the PDF object cleanly, and we're done.
-#     p.showPage()
-#     p.save()
-
-#     # FileResponse sets the Content-Disposition header so that browsers
-#     # present the option to save the file.
-#     buffer.seek(0)
-#     return FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+  employee=employeeDetails.objects.all()
+  return render(request,'admin/pdfs.html',{'employee':employee})
 
 # Create your views here.
 def home(request):
@@ -64,10 +109,10 @@ def admin_home(request):
 def emp_home(request):
   if not request.user.is_authenticated:
     return redirect("emp_login")
-  
-  now = datetime.datetime.now()
-  x=now.strftime("%Y-%m-%d %H:%M:%S")
-  return render(request,'emp/emp_home.html',{"datetime":x})
+
+  user=request.user
+  empImage=employeeImage.objects.get(user=user)
+  return render(request,'emp/emp_home.html',{'empImage':empImage})
 
 
 #Employee Logout
@@ -88,7 +133,7 @@ def myExp(request):
 def myEdu(request):
   if not request.user.is_authenticated:
     return redirect("emp_login")
-
+  
   user=request.user
   education=employeeEducation.objects.get(user=user)
   return render(request,'emp/my_edu.html',{'education':education})
@@ -136,6 +181,7 @@ def profile(request):
   error=''
   user=request.user
   employee=employeeDetails.objects.get(user=user)
+  empImage=employeeImage.objects.get(user=user)
   if request.method=="POST":
     fn=request.POST['firstname']
     ln=request.POST['lastname']
@@ -145,6 +191,7 @@ def profile(request):
     cont=request.POST['contact']
     joindate=request.POST['jdate']
     gender=request.POST['gender']
+    # eI=request.POST['image']
 
     # updating user data
     employee.first_name=fn
@@ -154,6 +201,7 @@ def profile(request):
     employee.designation=desig
     employee.contact=cont
     employee.gender=gender
+    # empImage.image=eI
 
     if joindate:
       employee.join_date=joindate
@@ -166,12 +214,32 @@ def profile(request):
       error="YES"
   return render(request,'profile.html',locals())
 
+#empImage
+def emp_image(request,pid):
+  if not request.user.is_authenticated:
+    return redirect("admin_login")
+  error=''
+  user=User.objects.get(id=pid)
+  empImage=employeeImage.objects.get(user=user)
+
+  if request.method=="POST":
+    #taking a post request
+    empImageUpload=request.POST['image']
+    #storing the post request
+    empImage.image=empImageUpload
+    try:
+      empImage.save()
+      empImage.user.save()
+      error="NO"
+    except:
+      error="YES"
+  return render (request,'admin/upload_empImage.html' ,{'empImage':empImage})
+
 #Employee editable Experience
 def editExp(request,pid):
   if not request.user.is_authenticated:
     return redirect("admin_login")
   error=""
-
   user=User.objects.get(id=pid)
   #instantiating the model as a variable 
   experience=employeeExperience.objects.get(user=user)

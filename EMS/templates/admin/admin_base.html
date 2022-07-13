@@ -40,8 +40,11 @@
           <div class="list-group mx-2">
             <a href="{% url 'admin_home' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/admin_home' %} active {% endif %}">Dashboard</a>
             <a href="{% url 'allEmps' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/all_employees' %} active {% endif %}">All Employees</a>
+            <a href="{% url 'pdf_gen' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/pdf_gen' %} active {% endif %}">Emp permissions</a>
+            <a href="{% url 'emp_image' user.id %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/emp_image' %} active {% endif %}">Upload Employee Image</a>
             <a href="{% url 'changePassAdmin' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/change_passAdmin' %} active {% endif %}">Change Password</a>
-            <a href="{% url 'logout' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/edit_exp' %} active {% endif %}">Logout</a>
+            
+            <a href="{% url 'logout_user' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/logout_user' %} active {% endif %}">Logout</a>
             
           </div>
         </div>

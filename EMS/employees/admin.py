@@ -4,3 +4,4 @@ from .models import *
 admin.site.register(employeeDetails)
 admin.site.register(employeeEducation)
 admin.site.register(employeeExperience)
+admin.site.register(employeeImage)

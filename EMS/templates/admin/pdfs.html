@@ -1,0 +1,54 @@
+{% extends 'admin/admin_base.html' %}
+{% block main %}
+<h5 class="p-2" style="border-bottom: 2px solid orange">
+  All Employees:
+ </h5>
+ <div class="container-fluid overflow-auto">
+  <table class="table table-striped table-responsive p-0" id="example">
+   <thead class="text-light bg-success">
+     <tr>
+       <th>S.No:</th>
+       <th>Employee Code:</th>
+       <th>Employee Depart:</th>
+       <th>Name:</th>
+       <th>E-mail:</th>
+       <th>PDFs</th>
+       
+        
+     
+     </tr>
+   </thead>
+   <tbody>
+     {% for i in employee %}
+     <tr>
+       <td>
+         {{forloop.counter}}
+       </td>
+       <td>
+         {{i.empcode}}
+       </td>
+       <td>
+         {{i.empdept}}
+       </td>
+       <td>
+         {{i.user.first_name}} {{i.user.last_name}}
+       </td>
+   
+       <td>
+         {{i.user.username}}
+       </td>
+       
+       <td>
+        <a href="{% url 'grant_leave' i.user.id  %}"  class="text-info"><small>Grant leave</small></a><br>
+        <a href="{% url 'grant_leaveText' i.user.id  %}"  class="text-info"><small>Grant leave Text</small></a>
+       </td>
+       {% endfor %}
+  
+    
+     </tr>
+    
+   </tbody>
+  </table>
+ </div>
+
+{% endblock %}
