@@ -1,3 +1,4 @@
+import os
 from email.errors import MessageError
 from urllib import response
 from django.shortcuts import render, redirect
@@ -15,26 +16,16 @@ from django.contrib import messages
 #for pdfs
 from django.http import FileResponse
 import io
+import reportlab
 from reportlab.pdfgen import canvas
 from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import A4,LEGAL, letter
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 
 #for text files
 from django.http import HttpResponse
-
-#grant_leave Text
-def grant_leaveText(request,pid):
-  if not request.user.is_authenticated:
-    return redirect("admin_login")
-  user=User.objects.get(id=pid)
-  employee=employeeDetails.objects.get(user=user)
-  response=HttpResponse(content_type='text/plain')
-  response['Content-Disposition']='attachment; filename=grantLeave.doc'
-
-  lines=[employee.designation, "\n",employee.user.first_name, "\n","V'll have our day one day"]
-  #write text to file
-  response .writelines(lines)
-  return response
+from fpdf import FPDF
 
 
 #grant Leave PDF
@@ -43,36 +34,72 @@ def grant_leave(request,pid):
     return redirect("admin_login")
   user=User.objects.get(id=pid)
   employee=employeeDetails.objects.get(user=user)
-  #create buffer
-  buf=io.BytesIO()
-  #create a canvas
-  c=canvas.Canvas(buf,pagesize=letter, bottomup=0)
-  #create a textobject
-  textob=c.beginText()
-  textob.setTextOrigin(inch,inch)
-  textob.setFont("Helvetica",14)
-  #add text
-  lines=[employee.designation,employee.user.first_name,"V'll have our day one day"]
-  for line in lines:
-    textob.textLine(line)
-  #finish up
-  c.drawText(textob)
-  c.showPage()
-  c.save()
-  buf.seek(0)
-  return FileResponse(buf,as_attachment=True,filename="pdf1.pdf")
 
-  # 
-  
-  
-  # pdf = FPDF()
-  # pdf.add_page()
-  # pdf.set_font('helvetica', size=12)
-  # pdf.cell(txt=employee.user.first_name)
-  # # print(pdf.cell)
-  # pdf.output("hello_world.pdf")
-  # return FileResponse(open('hello_world.pdf', 'rb'),as_attachment=True,content_type='application/pdf')
-  
+  class PDF(FPDF):
+    def header(self):
+      self.image('1.png', 90,8,30,25,30)
+      self.ln(20)
+      pdf.add_font('Arial','', r"C:\Windows\Fonts\arial.ttf", uni = True)
+      pdf.set_font('Arial', '',20)
+      self.cell(0,20,'EZAMİYYƏT VƏSİQƏSİ', align='C', ln=True)
+        
+
+  pdf = PDF('P','mm','Letter')
+  pdf.add_font('Arial','', r"C:\Windows\Fonts\arial.ttf", uni = True)
+
+  pdf.add_page()
+      # pdf.set_text_color(94, 107, 181)
+
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'№ 5/E', ln=True, align='C')
+  pdf.ln(10)
+
+  pdf.set_font('Arial', '',18)
+  pdf.cell(0,10,txt=employee.user.first_name,ln=True, align='C')
+  pdf.line(20,78,190,78)
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'(soyadı, adı, atasının adı)',ln=True, align='C')
+  pdf.ln(7)
+      ###
+  pdf.set_font('Arial', '',18)
+  pdf.cell(0,10,txt=employee.designation,ln=True, align='C')
+  pdf.line(20,107,190,107)
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'(şöbə/bölmə, vəzifəsi)',ln=True, align='C')
+  pdf.ln(7)
+      ###
+  pdf.set_font('Arial', '',18)
+  pdf.cell(0,10,'“MAS” MMC, Bakı şəhəri',ln=True, align='C')
+  pdf.line(20,134,190,134)
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'(ezam olunduğu təşkilatın adı, ünvanı)',ln=True, align='C')
+  pdf.ln(7)
+      ###
+  pdf.set_font('Arial', '',18)
+  pdf.cell(0,10,'Xidməti zərurətlə bağlı',ln=True, align='C')
+  pdf.line(20,160,190,160)
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'(ezamiyyətin məqsədi)',ln=True, align='C')
+  pdf.ln(7)
+      ###
+  pdf.set_font('Arial', '',18)
+  pdf.cell(0,10,'Gəncə',ln=True, align='C')
+  pdf.line(20,187,190,187)
+  pdf.set_font('Arial', '',12)
+  pdf.cell(0,10,'(təyinat məntəqəsi)',ln=True, align='C')
+  pdf.ln(7)
+      ###
+  pdf.set_font('Arial', '',16)
+  pdf.cell(0,10,'” 11 ”  gün müddətinə (yolda olduğu vaxt nəzərə alınmadan) ezam olunur.  ',ln=True)
+  pdf.ln(10)
+      ###
+  pdf.set_font('Arial', '',16)
+  pdf.cell(0,10,'Şəxsiyyəti təsdiq edən sənəd təqdim edildikdə etibarlıdır.',ln=True)
+  pdf.ln(7)
+
+  pdf.output("Employee Leave.pdf")
+  return FileResponse(open('Employee Leave.pdf', 'rb'),as_attachment=True,content_type='application/pdf')
+
 
 def pdf_gen(request):
   if not request.user.is_authenticated:
