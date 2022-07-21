@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Admin Base</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/ec1801c9e6.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'styleHeader.css' %}"/>
@@ -41,9 +41,8 @@
             <a href="{% url 'admin_home' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/admin_home' %} active {% endif %}">Dashboard</a>
             <a href="{% url 'allEmps' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/all_employees' %} active {% endif %}">All Employees</a>
             <a href="{% url 'pdf_gen' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/pdf_gen' %} active {% endif %}">Emp permissions</a>
-            <a href="{% url 'emp_image' user.id %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/emp_image' %} active {% endif %}">Upload Employee Image</a>
+            {% comment %} <a href="{% url 'emp_image' user.id %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/emp_image' %} active {% endif %}">Upload Employee Image</a> {% endcomment %}
             <a href="{% url 'changePassAdmin' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/change_passAdmin' %} active {% endif %}">Change Password</a>
-            
             <a href="{% url 'logout_user' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/logout_user' %} active {% endif %}">Logout</a>
             
           </div>

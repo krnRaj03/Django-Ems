@@ -15,7 +15,7 @@ urlpatterns = [
     path('edit_edu/<int:pid>', views.editEdu, name="editEdu"),
     path('pdf_gen', views.pdf_gen, name="pdf_gen"),
     path('grant_leave/<int:pid>', views.grant_leave, name="grant_leave"),
-    # path('grant_leaveText/<int:pid>', views.grant_leaveText, name="grant_leaveText"),
+    path('grant_leave1/<int:pid>', views.grant_leave1, name="grant_leave1"),
     path('emp_image/<int:pid>', views.emp_image, name="emp_image"),
 
 

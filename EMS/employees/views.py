@@ -26,7 +26,53 @@ from reportlab.pdfbase.ttfonts import TTFont
 #for text files
 from django.http import HttpResponse
 from fpdf import FPDF
+from datetime import date
 
+today = date.today()
+now1=today.isoformat()
+#grant Leave1 PDF
+def grant_leave1(request,pid):
+  if not request.user.is_authenticated:
+    return redirect("admin_login")
+  user=User.objects.get(id=pid)
+  employee=employeeDetails.objects.get(user=user)
+  pdf = FPDF('P','mm','Letter')
+  pdf.add_font('Arial','', r"C:\Windows\Fonts\arial.ttf", uni = True)
+
+  pdf.add_page()
+  # pdf.set_text_color(94, 107, 181)
+
+  pdf.set_font('Arial', '',16)
+  pdf.cell(0,10,'Bakı şəhəri', align='L')
+  pdf.set_font('Arial', '',14)
+  pdf.cell(0,10,txt=now1,ln=True, align='R')
+  pdf.ln(7)
+  ###
+  pdf.set_font('Arial', '',12)
+  pdf.multi_cell(0,7,'“Xidməti zərurət ilə əlaqədar-\nezamiyyənin verilməsi barədə”', border = 0, 
+                  align='R',ln=True)
+  pdf.ln(7) 
+  pdf.set_font('Arial', '',16)               
+  pdf.cell(0,10,'ƏMR № 1/E',ln=1, align='C')
+  pdf.ln(10)
+
+  pdf.set_font('Arial', '',16)  
+  pdf.cell(5,16,txt=employee.user.first_name, align='L')
+  pdf.set_font('Arial', '',12)    
+  pdf.cell(0,7,'Cəmiyyətin maliyyə şöbəsinin əməkdaşı, mühasib',ln=1, align='R')
+  pdf.cell(0,7,'03.06.2022 -ci il tarixindən 15.06.2022 -ci il tarixinədək',ln=1, align='R')
+  pdf.cell(0,7,'13 təqvim günü müddətinə İstanbul ezam edilsin.',ln=1, align='R')
+  pdf.cell(0,7,'Mühasibatlıq şöbəsinə tapşırılsın ki, ezamiyyənin',ln=1, align='R')
+  pdf.cell(0,7,'maliyyə təminatı ilə bağlı məsələləri',ln=1, align='R')
+  pdf.cell(0,7,'qanunvericilikdə nəzərdə tutulmuş qaydada həll etsin.',ln=1, align='R')
+  pdf.cell(0,7,'Əmrlə aidiyyatı şəxslər tanış edilsin.',ln=1, align='R')
+  ###
+  pdf.ln(16)
+  pdf.set_font('Arial', '',14)
+  pdf.cell(0,16,'Baş direktor', align='L')
+  pdf.cell(0,7,'Vüsal Şərifov',ln=1, align='R')
+  pdf.output("Employee Leave1.pdf")
+  return FileResponse(open('Employee Leave1.pdf', 'rb'),as_attachment=True,content_type='application/pdf')
 
 #grant Leave PDF
 def grant_leave(request,pid):
