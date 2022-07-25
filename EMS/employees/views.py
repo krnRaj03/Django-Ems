@@ -3,6 +3,7 @@ from email.errors import MessageError
 from urllib import response
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
+from django.http import HttpResponse
 
 #for e-mail
 from django.core.mail import send_mail
@@ -15,21 +16,94 @@ from django.contrib import messages
 
 #for pdfs
 from django.http import FileResponse
-import io
-import reportlab
-from reportlab.pdfgen import canvas
-from reportlab.lib.units import inch
-from reportlab.lib.pagesizes import A4,LEGAL, letter
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
-
-#for text files
-from django.http import HttpResponse
 from fpdf import FPDF
 from datetime import date
 
+#for importing data
+from .resources import empDetailsResource
+from tablib import Dataset
+
 today = date.today()
 now1=today.isoformat()
+
+###
+def applyLeave(request):
+  if not request.user.is_authenticated:
+    return redirect("admin_login")
+  error=""
+  user=request.user
+  leave=employeeLeave.objects.get(user=user)
+  print(leave)
+  if request.method=="POST":
+    #Company1 Profile
+    #P.S the name in [] & is same as Models & same as HTML name tags
+    typeoflea=request.POST['typeOfLeave']
+    begdate=request.POST['beginDate']
+    enddate=request.POST['endDate']
+    totdays=request.POST['totalDays']
+    reason=request.POST['commentsReasons']
+
+    # updating user data
+    #company1
+    leave.typeOfLeave=typeoflea
+    leave.beginDate=begdate
+    leave.endDate=enddate
+    leave.totalDays=totdays
+    leave.commentsReasons=reason
+
+    try:
+      leave.save()
+      leave.user.save()
+      error="NO"
+    except:
+      error="YES"
+  return render (request,'leaves/empApplyLeave.html')
+
+def approveLeave(request,pid):
+  if not request.user.is_authenticated:
+    return redirect("emp_login")
+  
+  user=User.objects.get(id=pid)
+  leave=employeeLeave.objects.get(user=user)
+  print(leave)
+  return render(request,'leaves/adminApproveLeave.html',{'leave':leave})
+
+
+
+
+
+
+
+
+
+
+
+#for importing data
+def simple_upload(request):
+  if request.method=='POST':
+      empDetail_resource=empDetailsResource()
+      dataset=Dataset()
+      new_employee=request.FILES['myfile']
+
+      if not new_employee.name.endswith('xlsx'):
+        messages.info(request,'wrong format!')
+        return render(request,'upload.html')
+      
+      imported_data = dataset.load(new_employee.read(),format='xlsx')
+      for data in imported_data:
+        value= employeeDetails(
+          data[0],
+          data[1],
+          data[2],
+          data[3],
+          data[4],
+          data[5],
+          data[6],
+        )
+        value.save()
+  return render(request, 'admin/upload.html')
+
+
 #grant Leave1 PDF
 def grant_leave1(request,pid):
   if not request.user.is_authenticated:
@@ -154,7 +228,7 @@ def pdf_gen(request):
   employee=employeeDetails.objects.all()
   return render(request,'admin/pdfs.html',{'employee':employee})
 
-# Create your views here.
+#Home Page
 def home(request):
   return render(request,'index.html')
 
@@ -164,7 +238,7 @@ def adminLogin(request):
     u=request.POST['username']
     p=request.POST['pass1']
     user=authenticate(username=u, password=p)
-    if user.is_staff:
+    if user is not None and user.is_active:
       login(request,user)
       error="NO"
     else:
@@ -193,7 +267,17 @@ def Logout(request):
   logout(request)
   return redirect('home')
 
-#Employee Experience
+#Display Employee Profile
+def basicDetails(request):
+  if not request.user.is_authenticated:
+    return redirect("emp_login")
+
+  user=request.user
+  details=employeeDetails.objects.get(user=user)
+  empImage=employeeImage.objects.get(user=user)
+  return render(request,'emp/basic_profile.html',{'details':details,'empImage':empImage})
+
+#Display Employee Experience
 def myExp(request):
   if not request.user.is_authenticated:
     return redirect("emp_login")
@@ -202,7 +286,7 @@ def myExp(request):
   experience=employeeExperience.objects.get(user=user)
   return render(request,'emp/my_exp.html',{'experience':experience})
 
-#Employee Education
+#Display Employee Education
 def myEdu(request):
   if not request.user.is_authenticated:
     return redirect("emp_login")
@@ -211,7 +295,7 @@ def myEdu(request):
   education=employeeEducation.objects.get(user=user)
   return render(request,'emp/my_edu.html',{'education':education})
 
- #Employee Login 
+#Employee Login 
 def emp_login(request):
   error=""
   if request.method=="POST":
@@ -225,7 +309,6 @@ def emp_login(request):
     else:
       error="YES"
   return render(request,'emp/emp_login.html',locals())
-
 
 #Employee Signup
 def register(request):
@@ -242,19 +325,21 @@ def register(request):
       employeeDetails.objects.create(user=user,empcode=ec)
       employeeEducation.objects.create(user=user)
       employeeExperience.objects.create(user=user)
+      employeeImage.objects.create(user=user)
+      employeeLeave.objects.create(user=user)
       error="NO"
     except:
       error="YES"
   return render(request,'registration.html',locals())
 
 #Employee Profile
-def profile(request):
+def profile(request,pid):
   if not request.user.is_authenticated:
     return redirect("emp_login")
   error=''
-  user=request.user
+  user=User.objects.get(id=pid)
   employee=employeeDetails.objects.get(user=user)
-  empImage=employeeImage.objects.get(user=user)
+  # empImage=employeeImage.objects.get(user=user)
   if request.method=="POST":
     fn=request.POST['firstname']
     ln=request.POST['lastname']
@@ -285,28 +370,8 @@ def profile(request):
       error="NO"
     except:
       error="YES"
-  return render(request,'profile.html',locals())
+  return render(request,'admin/profile.html',locals())
 
-#empImage
-def emp_image(request,pid):
-  if not request.user.is_authenticated:
-    return redirect("admin_login")
-  error=''
-  user=User.objects.get(id=pid)
-  empImage=employeeImage.objects.get(user=user)
-
-  if request.method=="POST":
-    #taking a post request
-    empImageUpload=request.POST['image']
-    #storing the post request
-    empImage.image=empImageUpload
-    try:
-      empImage.save()
-      empImage.user.save()
-      error="NO"
-    except:
-      error="YES"
-  return render (request,'admin/upload_empImage.html' ,{'empImage':empImage})
 
 #Employee editable Experience
 def editExp(request,pid):
@@ -363,7 +428,7 @@ def editExp(request,pid):
       error="YES"
   return render(request,'admin/edit_exp.html',locals())
 
-  #Employee editable Experience
+#Employee editable Education
 def editEdu(request,pid):
   if not request.user.is_authenticated:
     return redirect("admin_login")
@@ -419,6 +484,7 @@ def editEdu(request,pid):
       error="YES"
   return render(request,'admin/edit_edu.html',locals())
 
+#Change employee Password
 def changePass(request):
   if not request.user.is_authenticated:
     return redirect("emp_login")
@@ -480,3 +546,6 @@ def delete_emps(request,pid):
   user.delete()
   return redirect('allEmps')
 
+#Employee Salaries
+def emp_salary(request):
+  return render(request,'admin/emp_sal.html')

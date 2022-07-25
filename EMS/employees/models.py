@@ -4,8 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
-
-
 class employeeDetails(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
   empcode=models.CharField(max_length=50)
@@ -35,7 +33,7 @@ class employeeEducation(models.Model):
   yearpasssc=models.CharField(max_length=20, null=True)
   percentsc=models.CharField(max_length=30, null=True)
   def __str__(self):
-    return self.user.username+" "+self.coursegra
+    return self.user.username
 
 class employeeExperience(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
@@ -55,10 +53,20 @@ class employeeExperience(models.Model):
   comp3sal=models.CharField(max_length=100, null=True)
   comp3dura=models.CharField(max_length=100, null=True)
   def __str__(self):
-    return self.user.username+" "+self.comp1name
+    return self.user.username
 
 class employeeImage(models.Model):
   user=models.ForeignKey(User, on_delete=models.CASCADE)
   image=models.ImageField(upload_to='media/empimages', null=True)
+  def __str__(self):
+    return self.user.username
+
+class employeeLeave(models.Model):
+  user=models.ForeignKey(User, on_delete=models.CASCADE)
+  typeOfLeave=models.CharField(max_length=50, null=True)
+  beginDate=models.DateField(null=True)
+  endDate=models.DateField(null=True)
+  totalDays=models.CharField(null=True, max_length=20)
+  commentsReasons=models.CharField(max_length=50, null=True)
   def __str__(self):
     return self.user.username

@@ -40,7 +40,8 @@
        
        <td>
         <a href="{% url 'grant_leave' i.user.id  %}"  class="text-info"><small>Grant leave</small></a><br>
-        <a href="{% url 'grant_leave1' i.user.id  %}"  class="text-info"><small>Grant leave1</small></a>
+        <a href="{% url 'grant_leave1' i.user.id  %}"  class="text-info"><small>Grant leave1</small></a><br>
+        <a href="{% url 'approveLeave' i.user.id  %}"  class="text-info"><small>Approve Leave</small></a>
        </td>
        {% endfor %}
   

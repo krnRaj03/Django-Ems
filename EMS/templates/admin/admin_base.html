@@ -40,8 +40,10 @@
           <div class="list-group mx-2">
             <a href="{% url 'admin_home' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/admin_home' %} active {% endif %}">Dashboard</a>
             <a href="{% url 'allEmps' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/all_employees' %} active {% endif %}">All Employees</a>
+            {% comment %} <a href="{% url 'emp_sal' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/employee_sal' %} active {% endif %}">Salary section</a> {% endcomment %}
             <a href="{% url 'pdf_gen' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/pdf_gen' %} active {% endif %}">Emp permissions</a>
-            {% comment %} <a href="{% url 'emp_image' user.id %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/emp_image' %} active {% endif %}">Upload Employee Image</a> {% endcomment %}
+            {% comment %} <a href="{% url 'approveLeave' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/approveLeave' %} active {% endif %}">Approve Leaves</a> {% endcomment %}
+            <a href="{% url 'simple_upload' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/uploadExcel' %} active {% endif %}">Upload Employee Data</a>
             <a href="{% url 'changePassAdmin' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/change_passAdmin' %} active {% endif %}">Change Password</a>
             <a href="{% url 'logout_user' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/logout_user' %} active {% endif %}">Logout</a>
             

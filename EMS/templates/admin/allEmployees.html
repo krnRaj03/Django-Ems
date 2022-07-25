@@ -1,8 +1,5 @@
 {% extends 'admin/admin_base.html' %}
 {% block main %}
-
-
-  
     <h5 class="p-2" style="border-bottom: 2px solid orange">
      All Employees:
     </h5>
@@ -11,6 +8,7 @@
       <thead class="text-light bg-success">
         <tr>
           <th>S.No:</th>
+       
           <th>Employee Code:</th>
           <th>Employee Depart:</th>
           <th>First Name:</th>
@@ -50,13 +48,16 @@
           </td>
           <td>
             {{i.join_date}}
-          </td> 
+          </td>  
           <td>
-            <a href="{% url 'editExp' i.user.id %}"  class="text-info"><small>Update Experience</small></a>
+            <a href="{% url 'editExp' i.user.id %}"  class="text-primary"><small>•Update Experience</small></a>
             <br>
-            <a href="{% url 'editEdu' i.user.id %}" class="text-warning"><small>Update Education</small></a>
-            <a href="{% url 'delete_emps' i.user.id %}"  class="text-danger" onclick="return confirm('Are you sure?')"><small>DELETE</small></a>
-         <br>
+            <a href="{% url 'editEdu' i.user.id %}" class="text-primary"><small>•Update Education</small></a>
+            <br>
+            <a href="{% url 'profile' i.user.id %}" class="text-success"><small>•Update BasicDetails</small></a>
+            <br>
+            <a href="{% url 'delete_emps' i.user.id %}"  class="text-danger" onclick="return confirm('Are you sure?')"><small>•DELETE</small></a>
+        
           </td>
      
        

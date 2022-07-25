@@ -1,0 +1,74 @@
+{% extends 'emp/emp_base.html' %}
+{% block main %}
+<div class="row text-center">
+  <div class="col-sm-12 p-4">
+    <div class="card shadow">
+      <div class="card-body">
+        <form method="post" onsubmit="checkpassword()">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-sm-4">
+              <div class="form-group">
+                <label>Select type of Leave:</label>
+                <select class="form-select" aria-label="Default select example" name="typeOfLeave">
+                  <option selected>Select type of leave</option>
+                  <option value="1">Casual Leave</option>
+                  <option value="2">Sick Leave</option>
+                  <option value="3">Maternity Leave</option>
+                  <option value="4">Paternity Leave</option>
+                </select>
+              </div>
+            </div>
+            
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-4">   
+              <div class="form-group">
+                <label>Begin date 📆</label>
+                <input type="date" name="beginDate" class="form-control" value=""/>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-4 p-2">   
+              <div class="form-group">
+                <label>End date 📆</label>
+                <input type="date" name="endDate" class="form-control" value=""/>
+              </div>
+            </div>
+          </div>
+                       
+          <div class="row">
+            <div class="col-sm-4 p-2">   
+              <div class="form-group">
+                <label>Total Days</label>
+                <input type="text" name="totalDays" class="form-control" value=" "/>
+              </div>
+            </div>
+          </div>
+         
+          <div class="row">
+            <div class="col-sm-8 p-2">   
+              <div class="form-group">
+                <label>Comments/Reasons</label>
+                <input type="text" name="commentsReasons" class="form-control" value=" "/>
+              </div>
+            </div>
+          </div>
+          <input
+            type="submit"
+            value="submit"
+            class="btn btn-primary my-2 max-2"
+          />
+        </form>
+        </form>
+      </div>
+     
+    </div>
+  
+  </div>
+  </div>
+
+{% endblock %}
