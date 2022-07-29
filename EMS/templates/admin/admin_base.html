@@ -42,7 +42,7 @@
             <a href="{% url 'allEmps' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/all_employees' %} active {% endif %}">All Employees</a>
             {% comment %} <a href="{% url 'emp_sal' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/employee_sal' %} active {% endif %}">Salary section</a> {% endcomment %}
             <a href="{% url 'pdf_gen' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/pdf_gen' %} active {% endif %}">Emp permissions</a>
-            {% comment %} <a href="{% url 'approveLeave' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/approveLeave' %} active {% endif %}">Approve Leaves</a> {% endcomment %}
+            <a href="{% url 'deleteEmpPage' %}" class="list-group-item list-group-item-danger list-group-item-action {% if request.path == '/deleteEmpPage' %} active {% endif %}">Delete Employees</a>
             <a href="{% url 'simple_upload' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/uploadExcel' %} active {% endif %}">Upload Employee Data</a>
             <a href="{% url 'changePassAdmin' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/change_passAdmin' %} active {% endif %}">Change Password</a>
             <a href="{% url 'logout_user' %}" class="list-group-item list-group-item-primary list-group-item-action {% if request.path == '/logout_user' %} active {% endif %}">Logout</a>

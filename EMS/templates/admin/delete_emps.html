@@ -50,13 +50,8 @@
             {{i.join_date}}
           </td>  
           <td>
-            <a href="{% url 'editExp' i.user.id %}"  class="text-primary"><small>•Update Experience</small></a>
-            <br>
-            <a href="{% url 'editEdu' i.user.id %}" class="text-primary"><small>•Update Education</small></a>
-            <br>
-            <a href="{% url 'profile' i.user.id %}" class="text-success"><small>•Update BasicDetails</small></a>
-            {% comment %} <br> {% endcomment %}
-            {% comment %} <a href="{% url 'delete_emps' i.user.id %}"  class="text-danger" onclick="return confirm('Are you sure?')"><small>•DELETE</small></a> {% endcomment %}
+          
+            <a href="{% url 'delete_emps' i.user.id %}"  class="text-danger" onclick="return confirm('Are you sure?')"><small>•DELETE</small></a>
         
           </td>
      

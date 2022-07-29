@@ -11,6 +11,10 @@ class employeeDetails(models.Model):
   designation=models.CharField(max_length=100, null=True)
   contact=models.CharField(max_length=15, null=True)
   gender=models.CharField(max_length=50, null=True)
+  FIN=models.CharField(max_length=20, null=True)
+  SSN=models.CharField(max_length=20, null=True)
+  passport=models.CharField(max_length=20,null=True)
+  fathersname=models.CharField(max_length=50,null=True)
   join_date=models.DateField(null=True)
   def __str__(self):
     return self.user.username

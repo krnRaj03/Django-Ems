@@ -23,27 +23,54 @@
           </div>
         </div>
 
-        <div class="row">
-          <div class="col-sm-10 p-2">
+        <div class="row my-2">
+          <div class="col-sm-6 ">
+            <div class="form-group">
+              <label>Father's Name</label>
+              <input type="text" name="fathersname" class="form-control"  value="{{employee.fathersname}}"/>
+            </div>
+          </div>
+          <div class="col-sm-6 ">
+            <div class="form-group">
+              <label>Passport Number💳</label>
+              <input type="text" name="passport" class="form-control"  value="{{employee.passport}}"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="row my-2">
+          <div class="col-sm-4 ">
             <div class="form-group">
               <label>Employee Code</label>
               <input type="text" name="empcode" class="form-control"  value="{{employee.empcode}}"/>
             </div>
           </div>
-        </div>
-
-        <div class="row">
-          <div class="col-sm-6">
+        
+          <div class="col-sm-4">
             <div class="form-group">
               <label>Employee Department</label>
-              <input type="text" name="department" class="form-control"  value="{{employee.empdept}}"
+              <input type="text" name="department" class="form-control"  value="{{employee.empdept}}">
           </div>
-        
-          <div class="col-sm-6">
+        </div>
+          <div class="col-sm-4">
             <div class="form-group">
               <label>Employee Designation</label>
               <input type="text" name="designation" class="form-control"  value="{{employee.designation}}"/>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 p-2">
+            <div class="form-group">
+              <label>FIN 🆔</label>
+              <input type="text" name="FIN" class="form-control"  value="{{employee.FIN }}"/>
+            </div> 
+          </div>
+          <div class="col-sm-6 p-2">
+            <div class="form-group">
+              <label>SSN 🆔</label>
+              <input type="text" name="SSN" class="form-control"  value="{{employee.SSN }}"/>
+            </div> 
           </div>
         </div>
 
@@ -65,7 +92,7 @@
           <div class="col-sm-6 p-2">   
             <div class="form-group">
               <label>Joining date 📆</label>
-              <input type="date" name="jdate" class="form-control" value="{{employee.join_date}}"/>
+              <input type="date" name="join_date" class="form-control" value="{{employee.join_date}}"/>
             </div>
           </div>
           <div class="col-sm-6 p-2">

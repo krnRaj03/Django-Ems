@@ -11,6 +11,7 @@ urlpatterns = [
     path('all_employees', views.allEmps, name="allEmps"),
     path('change_passAdmin', views.changePassAdmin, name="changePassAdmin"),
     path('delete_employees/<int:pid>', views.delete_emps, name="delete_emps"),
+    path('deleteEmpPage', views.deleteEmpPage, name="deleteEmpPage"),
     path('edit_exp/<int:pid>', views.editExp, name="editExp"),
     path('edit_basic/<int:pid>', views.editExp, name="editExp"),
     path('profile/<int:pid>', views.profile, name="profile"),
@@ -18,6 +19,8 @@ urlpatterns = [
     path('pdf_gen', views.pdf_gen, name="pdf_gen"),
     path('grant_leave/<int:pid>', views.grant_leave, name="grant_leave"),
     path('grant_leave1/<int:pid>', views.grant_leave1, name="grant_leave1"),
+    path('contarct_gen/<int:pid>', views.contract_gen, name="contract_gen"),
+
     # path('emp_image/<int:pid>', views.emp_image, name="emp_image"),
     path('uploadExcel', views.simple_upload, name="simple_upload"),
     # path('employee_sal', views.emp_salary, name="emp_sal"),

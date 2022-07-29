@@ -1,57 +1,35 @@
 {% extends 'admin/admin_base.html' %}
-{% block content %}
-<div class="container-fluid">
-  <table class="table table-bordered table-hover">
-    <tr>
-      <th>Post Graduation Course:</th>
-      <td> {{education.coursepg}}</td>
-    <tr>
-    <tr>
-        <th>Post Graduation University/College:</th>
-        <td> {{education.schoolclgpg}}</td>
-    <tr>
-    <tr>
-          <th>Post Graduation (Passing year):</th>
-          <td> {{education.yearpasspg}}</td>
-    <tr>
-    <tr>
-            <th>Post Graduation (Percent/Percentile/Grade):</th>
-            <td> {{education.percentpg}}</td>
-    <tr>
-      {% comment %}  {% endcomment %}
-      <tr>
-        <th>Graduation Course:</th>
-        <td> {{education.coursegra}}</td>
-      <tr>
-      <tr>
-          <th>Graduation University/College:</th>
-          <td> {{education.schoolclggra}}</td>
-      <tr>
-      <tr>
-            <th>Graduation (Passing year):</th>
-            <td> {{education.yearpassgra}}</td>
-      <tr>
-      <tr>
-              <th>Graduation (Percent/Percentile/Grade):</th>
-              <td> {{education.percentgra}}</td>
-      <tr>
-        {% comment %}  {% endcomment %}
-        <tr>
-          <th>Senior Secondary School course:</th>
-          <td> {{education.coursesc}}</td>
-        <tr>
-        <tr>
-            <th>Senior Secondary School name:</th>
-            <td> {{education.schoolclgsc}}</td>
-        <tr>
-        <tr>
-              <th>Senior Secondary (Passing year):</th>
-              <td> {{education.yearpasssc}}</td>
-        <tr>
-        <tr>
-                <th>Senior Secondary (Percent/Percentile/Grade):</th>
-                <td>{{education.percentsc}}</td>
-        <tr>
-  </table>
-</div>
+{% block main %}
+    <h5 class="p-2" style="border-bottom: 2px solid orange">
+     All Employees:
+    </h5>
+    <div class="container-fluid overflow-auto">
+      
+        <div class="col-sm-6">
+        <label for="floatingInputValue">Type of Leave</label>
+        <input type="text" class="form-control"  value="{{leave.typeOfLeave}}" readonly>
+        <label for="floatingInputValue">Begin Date</label>
+        <input type="text" class="form-control"  value="{{leave.beginDate}}" readonly>
+        <label for="floatingInputValue">End Date </label>
+        <input type="text" class="form-control"  value="{{leave.endDate}}" readonly>
+        <label for="floatingInputValue">Begin Date</label>
+        <input type="text" class="form-control"  value="{{leave.commentsReasons}}" readonly><br>
+        <input type='submit' value="Accept" class="btn btn-success"> <input type='submit' value="Reject" class="btn btn-danger">
+        </div>
+       
+       
+    </div>
+
+
 {% endblock %}
+<script>
+  // The function below will start the confirmation dialog
+  function makeSure() {
+    let confirmAction = confirm("Are you sure to execute this action?");
+    if (confirmAction) {
+      alert("Action successfully executed");
+    } else {
+      alert("Action canceled");
+    }
+  }
+</script>
