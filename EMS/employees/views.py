@@ -3,12 +3,10 @@ from email.errors import MessageError
 from urllib import response
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login,logout
-from django.http import HttpResponse
+# from django.http import HttpResponse
 
 #for e-mail
 from django.core.mail import send_mail
-from django.conf import settings
-from requests import request
 
 #models
 from .models import *
@@ -42,10 +40,6 @@ def applyLeave(request):
     b1=begdate
     enddate=request.POST['endDate']
     print(enddate)
-    # e1=enddate
-    # tot=b1-e1
-    # print(tot)
-    # t1=tot
     totdays=request.POST['totalDays']
     reason=request.POST['commentsReasons']
 
@@ -74,8 +68,6 @@ def approveLeave(request,pid):
   print(leave)
   return render(request,'leaves/adminApproveLeave.html',{'leave':leave})
 
-
-
 #for importing data
 def simple_upload(request):
   if request.method=='POST':
@@ -100,8 +92,6 @@ def simple_upload(request):
         )
         value.save()
   return render(request, 'admin/upload.html')
-
-
 
 #Home Page
 def home(request):
@@ -135,7 +125,6 @@ def emp_home(request):
   user=request.user
   empImage=employeeImage.objects.get(user=user)
   return render(request,'emp/emp_home.html',{'empImage':empImage})
-
 
 #Employee Logout
 def Logout(request):
@@ -202,6 +191,14 @@ def register(request):
       employeeExperience.objects.create(user=user)
       employeeImage.objects.create(user=user)
       employeeLeave.objects.create(user=user)
+
+      send_mail(
+      'TEST Msg. from HR:',
+      "Hi! Welcome to our company. ",
+      'krnraj002@gmail.com',
+      [user],
+    )
+
       error="NO"
     except:
       error="YES"
@@ -255,7 +252,6 @@ def profile(request,pid):
     except:
       error="YES"
   return render(request,'admin/profile.html',locals())
-
 
 #Employee editable Experience
 def editExp(request,pid):
@@ -441,8 +437,6 @@ def deleteEmpPage(request):
 #Employee Salaries
 def emp_salary(request):
   return render(request,'admin/emp_sal.html')
-
-
 
 ###All PDFs
 
@@ -1075,7 +1069,6 @@ def contract_gen(request,pid):
   pdf.output("Employee Contract.pdf")
   return FileResponse(open('Employee Contract.pdf', 'rb'),as_attachment=True,content_type='application/pdf')
   
-
 def pdf_gen(request):
   if not request.user.is_authenticated:
     return redirect('admin_login')
