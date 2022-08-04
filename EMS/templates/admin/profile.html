@@ -89,13 +89,19 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6 p-2">   
+          <div class="col-sm-4 p-2">   
             <div class="form-group">
               <label>Joining date 📆</label>
               <input type="date" name="join_date" class="form-control" value="{{employee.join_date}}"/>
             </div>
           </div>
-          <div class="col-sm-6 p-2">
+          <div class="col-sm-4 p-2">   
+            <div class="form-group">
+              <label>Allotted Leaves</label>
+              <input type="number" name="leavesAlloted" class="form-control" value="{{employee.leavesAlloted}}"/>
+            </div>
+          </div>
+          <div class="col-sm-4 p-2">
             <div class="form-group">
               <label>Gender</label>
               <select name="gender" class="form-control" value="{{employee.gender}}">

@@ -91,14 +91,19 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-6 p-2">   
+          <div class="col-sm-4 p-2">   
             <div class="form-group">
               <label>Joining date 📆</label>
               <input type="date" name="jdate" class="form-control" value="{{details.join_date}}" disabled readonly/>
-              
             </div>
           </div>
-          <div class="col-sm-6 p-2">
+          <div class="col-sm-4 p-2">   
+            <div class="form-group">
+              <label>Allotted Leaves</label>
+              <input type="number" name="leavesAlloted" class="form-control" value="{{details.leavesAlloted}}" disabled readonly/>
+            </div>
+          </div>
+          <div class="col-sm-4 p-2">
             <div class="form-group">
               <label>Gender</label>
               <input type="tel" name="contact" class="form-control" value="{{details.gender}}" disabled readonly/>

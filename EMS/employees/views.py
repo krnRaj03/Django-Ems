@@ -32,23 +32,35 @@ def applyLeave(request):
   user=request.user
   leave=employeeLeave.objects.get(user=user)
   print(leave)
-  if request.method=="POST":
-    #Company1 Profile
-    #P.S the name in [] & is same as Models & same as HTML name tags
-    typeoflea=request.POST['typeOfLeave']
-    begdate=request.POST['beginDate']
-    b1=begdate
-    enddate=request.POST['endDate']
-    print(enddate)
-    totdays=request.POST['totalDays']
-    reason=request.POST['commentsReasons']
+  totaldays=list()
+ 
 
+  if request.method=="POST":
+    #P.S the name   in [] & is same as Models & same as HTML name tags
+    typeoflea=request.POST['typeOfLeave']
+
+    begdate=request.POST['beginDate']
+    begdate=str(begdate)
+    val1=begdate.split('-')
+    print(val1)
+
+    enddate=request.POST['endDate']
+    enddate=str(enddate)
+    val2=enddate.split('-')
+    print(val2)
+
+    for d,d1 in zip(val1,val2):
+      totaldays.append(int(d1)-int(d))
+      print(totaldays[-1])
+    
+  
+    reason=request.POST['commentsReasons']
+    # context={'tot':totaldays}
     # updating user data
-    #company1
     leave.typeOfLeave=typeoflea
     leave.beginDate=begdate
     leave.endDate=enddate
-    leave.totalDays=totdays
+    # leave.totalDays=totaldays
     leave.commentsReasons=reason
 
     try:
@@ -57,7 +69,10 @@ def applyLeave(request):
       error="NO"
     except:
       error="YES"
-  return render (request,'leaves/empApplyLeave.html')
+    return render (request,'leaves/empApplyLeave.html',{'tot':totaldays[2]})
+  else:
+    return render (request,'leaves/empApplyLeave.html',{'tot':0})
+
 
 def approveLeave(request,pid):
   if not request.user.is_authenticated:
@@ -65,6 +80,25 @@ def approveLeave(request,pid):
   
   user=User.objects.get(id=pid)
   leave=employeeLeave.objects.get(user=user)
+
+  # if request.method=="POST":
+  #   acception=request.POST['acc']
+  #   print(acception)
+  #   send_mail(
+  #     'TEST Msg. from HR:',
+  #     "Hi! Accepted. ",
+  #     'krnraj002@gmail.com',
+  #     [user],)
+
+  #   if request.method=="POST": 
+  #     rejection=request.POST['rej']
+  #     print(rejection)
+  #   send_mail(
+  #     'TEST Msg. from HR:',
+  #     "Hi! Rejected ",
+  #     'krnraj002@gmail.com',
+  #     [user],)
+
   print(leave)
   return render(request,'leaves/adminApproveLeave.html',{'leave':leave})
 
@@ -115,7 +149,6 @@ def admin_home(request):
   if not request.user.is_authenticated:
     return redirect("admin_login")
   return render(request,'admin/admin_home.html')
-
 
 #Employee Home
 def emp_home(request):
@@ -225,6 +258,7 @@ def profile(request,pid):
     fin=request.POST['FIN']
     ssn=request.POST['SSN']
     passp=request.POST['passport']
+    allLea=request.POST['leavesAlloted']
     # eI=request.POST['image']
 
     # updating user data
@@ -239,6 +273,7 @@ def profile(request,pid):
     employee.FIN=fin
     employee.SSN=ssn
     employee.passport=passp
+    employee.leavesAlloted=allLea
     
     # empImage.image=eI
 
@@ -438,6 +473,7 @@ def deleteEmpPage(request):
 def emp_salary(request):
   return render(request,'admin/emp_sal.html')
 
+
 ###All PDFs
 
 #grant Leave1 PDF
@@ -593,6 +629,7 @@ def contract_gen(request,pid):
   pdf.cell(0,7,"(idarənin, müəssisənin, təşkilatın adı)",ln=True, align='C')    
 
   pdf.set_font('Arial', '',12)
+  pdf.cell(0,2)
   pdf.cell(0,7,'___________________________________________________________________________ ilə  ', border = 0, 
                     align='L',ln=True)
   pdf.set_font('Arial', '',8)

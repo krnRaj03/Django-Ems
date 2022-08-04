@@ -16,6 +16,11 @@ class employeeDetails(models.Model):
   passport=models.CharField(max_length=20,null=True)
   fathersname=models.CharField(max_length=50,null=True)
   join_date=models.DateField(null=True)
+  leavesAlloted=models.IntegerField(null=True)
+  addressLine1=models.CharField(max_length=100, null=True)
+  addressLine2=models.CharField(max_length=100, null=True)
+  city=models.CharField(max_length=50, null=True)
+
   def __str__(self):
     return self.user.username
 

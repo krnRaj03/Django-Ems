@@ -14,7 +14,11 @@
         <input type="text" class="form-control"  value="{{leave.endDate}}" readonly>
         <label for="floatingInputValue">Begin Date</label>
         <input type="text" class="form-control"  value="{{leave.commentsReasons}}" readonly><br>
-        <input type='submit' value="Accept" class="btn btn-success"> <input type='submit' value="Reject" class="btn btn-danger">
+        <form method="post">
+          {% csrf_token %}
+        <input type='submit' name="acc" value="Accept" class="btn btn-success"> 
+        <input type='submit' name="rej" value="Reject" class="btn btn-danger">
+        </form>
         </div>
        
        
